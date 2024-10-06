@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Divergin Bar Chart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" class="text" placeholder="enter city name" spellcheck="false">
+            <button><img src="images/search.png" alt=""></button>
+        </div>
+        <div class="weather">
+            <img src="images/rain.png" class="weather-icon" alt="">
+            <h1 class="temp">29°C</h1>
+            <h2 class="city">Pinabacdao Samar</h2>
+
+            <div class="details">
+                <div class="col">
+                    <img src="images/humidity.png" alt="">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="images/wind.png" alt="">
+                    <div>
+                        <p class="wind">5km/h</p>
+                        <p>Wind</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const apiKey = "2a974d0d014316af3f3bb226fab77468";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+    const search = document.querySelector('.search input');
+    const btn = document.querySelector('.search button');
+
+    async function checkWeather(city) {
+        const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
+        const data = await response.json();
+        console.log(data);
+
+        document.querySelector('.city').innerText = `${data.name}, ${data.sys.country}`;
+        document.querySelector('.temp').innerText = `${Math.round(data.main.temp)}°C`;
+        document.querySelector('.humidity').innerText = `${data.main.humidity}%`;
+        document.querySelector('.wind').innerText = `${data.wind.speed}km/h`;
+    }
+
+    btn.addEventListener('click', function() {
+        checkWeather(search.value);
+    });
+    checkWeather('philippines'); // Initial call to display weather for a default city
+</script>
+</body>
+</html>
